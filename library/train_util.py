@@ -4018,7 +4018,7 @@ def get_scheduler_fix(args, optimizer: Optimizer, num_processes: int):
         lr_scheduler_class = CosineAnnealingWarmRestartsDecay# getattr(lr_scheduler_module, lr_scheduler_type)
         lr_scheduler = lr_scheduler_class(optimizer, **lr_scheduler_kwargs)
         warmup_scheduler = WarmUpScheduler(optimizer, lr_scheduler=lr_scheduler, warmup_steps=lr_scheduler_kwargs['warmup_steps'], warmup_start_lr=1e-08, warmup_mode='linear')
-        return wrap_check_needless_num_warmup_steps(lr_scheduler)
+        return wrap_check_needless_num_warmup_steps(warmup_scheduler)
 
     if name.startswith("adafactor"):
         assert (
