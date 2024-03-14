@@ -4591,10 +4591,10 @@ def save_sd_model_on_epoch_end_or_stepwise_common(
 ):
     if on_epoch_end:
         epoch_no = epoch + 1
-        # saving = epoch_no % args.save_every_n_epochs == 0 and epoch_no < num_train_epochs
-        # if not saving:
-        #     return
-        saving = True
+        saving = epoch_no % args.save_every_n_epochs == 0 and epoch_no < num_train_epochs
+        if not saving:
+            return
+        # saving = True
         model_name = default_if_none(args.output_name, DEFAULT_EPOCH_NAME)
         remove_no = get_remove_epoch_no(args, epoch_no)
     else:
