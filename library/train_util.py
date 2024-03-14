@@ -3981,6 +3981,8 @@ class CosineAnnealingWarmRestartsDecay(CosineAnnealingWarmRestarts):
 
     super().step(epoch)
 
+from warmup_scheduler_pytorch import WarmUpScheduler
+
 def get_scheduler_fix(args, optimizer: Optimizer, num_processes: int):
     """
     Unified API to get any scheduler from its name.
