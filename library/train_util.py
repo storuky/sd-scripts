@@ -4590,7 +4590,7 @@ def save_sd_model_on_epoch_end_or_stepwise_common(
     diffusers_saver,
 ):
     if on_epoch_end:
-        # epoch_no = epoch + 1
+        epoch_no = epoch + 1
         # saving = epoch_no % args.save_every_n_epochs == 0 and epoch_no < num_train_epochs
         # if not saving:
         #     return
