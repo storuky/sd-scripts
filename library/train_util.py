@@ -4015,10 +4015,14 @@ def get_scheduler_fix(args, optimizer: Optimizer, num_processes: int):
             values = lr_scheduler_type.split(".")
             lr_scheduler_module = importlib.import_module(".".join(values[:-1]))
             lr_scheduler_type = values[-1]
-        lr_scheduler_class = CosineAnnealingWarmRestartsDecay# getattr(lr_scheduler_module, lr_scheduler_type)
+        if lr_scheduler_type == "CosineAnnealingWarmRestarts":
+            lr_scheduler_class = CosineAnnealingWarmRestartsDecay
+        else:
+            lr_scheduler_class = getattr(lr_scheduler_module, lr_scheduler_type)
         lr_scheduler = lr_scheduler_class(optimizer, **lr_scheduler_kwargs)
-        warmup_scheduler = WarmUpScheduler(optimizer, lr_scheduler=lr_scheduler, warmup_steps=lr_scheduler_kwargs['warmup_steps'], warmup_start_lr=1e-08, warmup_mode='linear')
-        return wrap_check_needless_num_warmup_steps(warmup_scheduler)
+        if lr_scheduler_type == "CosineAnnealingWarmRestarts":
+            lr_scheduler = WarmUpScheduler(optimizer, lr_scheduler=lr_scheduler, warmup_steps=lr_scheduler_kwargs['warmup_steps'], warmup_start_lr=1e-08, warmup_mode='linear')
+        return wrap_check_needless_num_warmup_steps(lr_scheduler)
 
     if name.startswith("adafactor"):
         assert (
